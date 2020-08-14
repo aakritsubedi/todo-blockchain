@@ -59,15 +59,15 @@ Link: [https://www.trufflesuite.com/ganache](https://www.trufflesuite.com/ganach
 
 - In Ubuntu, open a browser and navigate to [https://github.com/trufflesuite/ganache/releases](https://github.com/trufflesuite/ganache/releases)
 - Download the latest Linux release which will be the \*.AppImage file.
- For example ganache-1.3.0-x86\_64.AppImage.
+ For example ganache-2.4.0-linux-x86_64.AppImage.
 - Once the download is complete, open a new terminal and change into the directory with the \*.AppImage file.
 - Use chmod to make the file executable:
 
-chmod a+x ganache-1.3.0-x86\_64.AppImage
+`$ chmod a+x ganache-2.4.0-linux-x86_64.AppImage`
 
 - Now run the file
 
-./ganache-1.3.0-x86\_64.AppImage
+`$ ./ganache-2.4.0-linux-x86_64.AppImage`
 
 - You will be prompted if you want to integrate the application into your system. For convenience, click Yes. This will allow you to launch Ganache later from Ubuntu Application menu.
 - Ganache will launch and prompt if you want to enable Google Analytics tracking to help the developers improve the software. Toggle this off if you wish, then click Continue.
@@ -86,7 +86,7 @@ The Truffle Framework, which provides a suite of tools for developing Ethereum s
 
 - Once npm is install, you can install Truffle with this command:
 
-npm install -g truffle
+`$ npm install -g truffle`
 
 - Verify the installation by checking the truffle version:
 
@@ -106,6 +106,21 @@ Metamask will also allow us to manage our personal account when we connect to th
 - create a project directory and navigate into the directory
 - Now we initialize a new truffle project to develop our project like this:
 
-$ truffle init
+`$ truffle init`
 
--
+- The new project will include some folders and files:
+  - contracts
+  - migrations
+  - test
+  - truffle-config.js
+- You can bootstrap all of the dependencies for your project by simply copy-and-pasting the code below into your package.json file: 
+- Now you can install the dependencies from the command line like this:
+`$ npm install`
+- Now that the dependencies are installed, the project directory structure that we just created:
+
+![Project Dir](https://raw.githubusercontent.com/aakritsubedi/todo-blockchain/master/README_IMG/project_dir.png)
+  - **contracts directory:** this is where all smart contacts live. We already have a Migration contract that handles our migrations to the blockchain.
+  - **migrations directory:** this is where all of the migration files live. These migrations are similar to other web development frameworks that require migrations to change the state of a database. Whenever we deploy smart contracts to the blockchain, we are updating the blockchain's state, and therefore need a migration.
+  - **node_modules directory:** this is the home of all of our Node dependencies we just installed.
+  - **test directory:** this is where we'll write our tests for our smart contract.
+  - **truffle-config.js file:** this is the main configuration file for our Truffle project, where we'll handle things like network configuration.
