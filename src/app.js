@@ -91,7 +91,7 @@ App = {
         .find("input")
         .prop("name", taskId)
         .prop("checked", taskCompleted)
-        .on("click", App.toggleComplete);
+        .on("click", App.toggleCompleted);
       // Filter task acc to status
       if (taskCompleted) {
         $("#completedTaskList").append($newTaskTemplate);
@@ -108,6 +108,13 @@ App = {
     const content = $('#newTask').val();
     await App.todoList.createTask(content);
     // reload the page after adding the new task
+    window.location.reload();
+  },
+
+  toggleCompleted: async (e) => {
+    App.setLoading(true);
+    const taskId = e.target.name;
+    await App.todoList.toggleCompleted(taskId);
     window.location.reload();
   },
 

@@ -431,6 +431,45 @@ createTask: async () => {
 **Note:** To deploy a new copy of the smart contract to the blockchain since the code has changed:
 `$ truffle migrate --reset`
 
+### Complete Task 
+"check off" the tasks in the todo list. Once we do, they will appear in the "completed" list, striked through. First, we'll update the smart contract. We'll add a TaskComplted() event, and trigger it inside a new toggleCompleted() function like this:
+
+```javascript
+ event TaskCompleted(
+   uint id,
+   bool completed
+ );
+```
+
+```javascript
+ function toggleCompleted(uint _id) public {
+   Task memory _task = tasks[_id];
+   _task.completed = !_task.completed;
+   tasks[_id] = _task;
+ 
+   emit TaskCompleted(_id, _task.completed);
+ }
+```
+Now let's deploy a new copy of the smart contract to the blockchain since the code has changed: 
+`$ truffle migrate --reset`
+
+update the client side code. Add an event listener to update the task. 
+`.on('click', App.toggleCompleted)`
+
+add a toggleCompleted() function in the app.js file like this:
+```javascript 
+toggleCompleted: async (e) => {  
+   App.setLoading(true);
+   const taskId = e.target.name;
+   await App.todoList.toggleCompleted(taskId);
+   window.location.reload();
+ }
+```
+
+Now, find a task in the client side application and click the checkbox. Once you sign this transaction, it will check off the task from the todo list! 
+
+![Todo: Task Complete](https://raw.githubusercontent.com/aakritsubedi/todo-blockchain/master/README_IMG/TaskComplete.png)
+
 ### Testing 
 Now let's write a basic test to ensure that the todo list smart conract works properly. First, let me explain why testing is so important when you're developing smart contracts. We want to ensure that the contracts are bug free for a few reasons:
 
@@ -446,3 +485,5 @@ Run the tests from the command line like this:
 `$ truffle test`
 
 Wow, test pass!! 🎉🎉 
+
+Congratulations! 🎉 🎉
