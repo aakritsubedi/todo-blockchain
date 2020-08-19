@@ -16,15 +16,24 @@ contract TodoList {
   // Storage 
   mapping(uint => Task) public tasks; 
 
+  // Event 
+  event TaskCreated(
+    uint id,
+    string content,
+    bool completed
+  );
+
   // Constructor fn to initilize the task
   constructor() public {
     createTask("Complete BCT Notes website new features");
-    createTask("Complete pending work");
+    // createTask("Complete pending work");
   }
 
   function createTask(string memory _content) public {
     taskCount ++;
     tasks[taskCount] = Task(taskCount, _content, false);
+
+    emit TaskCreated(taskCount, _content, false);
   }
 
 } 
