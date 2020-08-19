@@ -385,6 +385,51 @@ Once you're connected with Metamask, you should see all of the contract and acco
 
 💥 Wow!! There is our todo list! 😃
 
+### Create Tasks
+We've already created a function for creating tasks, but it is not complete just yet. That's because I want to trigger an event any time that new task is created. Solidity allows us to trigger arbitrary events which external consumers can subscribe to. It will allow us to listen for these events inside client side applications, etc... 
+
+```javascript 
+ // Event
+ event TaskCreated(
+   uint id,
+   string content,
+   bool completed
+ );
+```
+
+```javascript
+function createTask(string memory _content) public {
+   taskCount ++;
+   tasks[taskCount] = Task(taskCount, _content, false);
+ 
+   emit TaskCreated(taskCount, _content, false);
+}
+```
+#### Client Side Application Changes 
+- Add a form in the client side code to enter the tasks.
+```javascript
+<form onSubmit="App.createTask(); return false;">
+  <input id="newTask" type="text" class="form-control" placeholder="Add task..." required>
+  <input type="submit" hidden="">
+</form>
+```
+- we'll add a createTask() function in the app.js file like this:
+```javascript
+createTask: async () => {
+   App.setLoading(true);
+   const content = $('#newTask').val();
+   await App.todoList.createTask(content);
+   // reload the page after adding the new task
+   window.location.reload();
+}
+```
+
+- Now you should be able to add new tasks from the client side application! Once you do, you'll see a Metamask confirmation pop up. You must sign this transaction in order to create the task.
+
+![Todo: Added Task](https://raw.githubusercontent.com/aakritsubedi/todo-blockchain/master/README_IMG/task_added.png)
+
+**Note:** To deploy a new copy of the smart contract to the blockchain since the code has changed:
+`$ truffle migrate --reset`
 
 ### Testing 
 Now let's write a basic test to ensure that the todo list smart conract works properly. First, let me explain why testing is so important when you're developing smart contracts. We want to ensure that the contracts are bug free for a few reasons:
