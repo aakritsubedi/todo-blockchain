@@ -83,10 +83,12 @@ App = {
       const task = await App.todoList.tasks(i);
       const taskId = task[0].toNumber();
       const taskContent = task[1];
-      const taskCompleted = task[2];
+      const taskTimestamp = task[2];
+      const taskCompleted = task[3];
       // TASK HTML
       const $newTaskTemplate = $taskTemplate.clone();
       $newTaskTemplate.find(".content").html(taskContent);
+      $newTaskTemplate.find(".timestamp").html(taskTimestamp);
       $newTaskTemplate
         .find("input")
         .prop("name", taskId)
@@ -104,9 +106,12 @@ App = {
   },
 
   createTask: async () => {
+    let d = new Date();
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     App.setLoading(true);
     const content = $('#newTask').val();
-    await App.todoList.createTask(content);
+    const timestamp = d.getDate() + '/' + months[d.getMonth()] + '/'+ d.getFullYear()
+    await App.todoList.createTask(content, timestamp);
     // reload the page after adding the new task
     window.location.reload();
   },

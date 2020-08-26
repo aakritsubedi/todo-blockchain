@@ -10,6 +10,7 @@ contract TodoList {
   struct Task {
     uint id;
     string content;
+    string timestamp;
     bool  completed;
   }
 
@@ -20,6 +21,7 @@ contract TodoList {
   event TaskCreated(
     uint id,
     string content,
+    string timestamp,
     bool completed
   );
 
@@ -30,15 +32,19 @@ contract TodoList {
 
   // Constructor fn to initilize the task
   constructor() public {
-    createTask("Complete BCT Notes website new features");
+    createTask("Complete BCT Notes website new features", '26/Aug/2020');
     // createTask("Complete pending work");
   }
 
-  function createTask(string memory _content) public {
-    taskCount ++;
-    tasks[taskCount] = Task(taskCount, _content, false);
+  // Getter - fetch 
+  // Modifiers - restrict 
+  // Cost 
 
-    emit TaskCreated(taskCount, _content, false);
+  function createTask(string memory _content, string memory _timestamp ) public  {
+    taskCount ++;
+    tasks[taskCount] = Task(taskCount, _content, _timestamp, false);
+
+    emit TaskCreated(taskCount, _content, _timestamp ,false);
   }
 
   function toggleCompleted(uint _id) public {
